@@ -4,14 +4,67 @@
     <meta charset="UTF-8">
     <title>Visual Analytics - Health Care Visualization</title>
     <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+          integrity="sha256-WLKGWSIJYerRN8tbNGtXWVYnUM5wMJTXD8eG4NtGcDM=" crossorigin="anonymous">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"
+            integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
 </head>
 <body>
+<section class="section">
+    <div class="container">
+        <h1 class="title">
+            Health Care Spending
+        </h1>
+        <div class="columns">
+            <div class="column select is-multiple is-primary">
+                <label for="countries">Choose upto 5 country to plot:</label>
+                <select name="countries" id="countries" multiple size="4">
+                    <option class="dropdown-item" value="Armenia">Armenia</option>
+                    <option class="dropdown-item" value="France">France</option>
+                    <option class="dropdown-item" value="Spain">Spain</option>
+                    <option class="dropdown-item" value="India">India</option>
+                    <option class="dropdown-item" value="China">China</option>
+                    <option class="dropdown-item" value="America">America</option>
+                    <option class="dropdown-item" value="Italy">Italy</option>
+                    <option class="dropdown-item" value="Greece">Greece</option>
+                </select>
+                <div class="column">
+                    <button class="button is-primary is-medium" id="plot-button">Plot</button>
+                </div>
+                <div class="column">
+                    <div id='gdpDiv'><!-- Plot for Health Care spending as % of GDP --></div>
+                </div>
+            </div>
+            <div class="modal" id="not-implemented-modal">
+                <div class="modal-background"></div>
+                <div class="modal-content">
+                    <div class="notification is-danger">
+                        Interactive filtering is not developed yet, stay tuned!
+                    </div>
+                </div>
+                <button class="modal-close is-large" aria-label="close" id="modal-close"></button>
+            </div>
+        </div>
 
-<div id='gdpDiv'><!-- Plot for Health Care spending as % of GDP --></div>
-
+    </div>
+</section>
+</div>
 
 <script>
-    var xData = [
+    $("#modal-close").click(function () {
+        $("#not-implemented-modal").removeClass("is-active")
+    });
+
+    $("#plot-button").click(function () {
+        $("#not-implemented-modal").addClass("is-active")
+    });
+
+    const xData = [
         [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017],
         [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017],
         [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017],
@@ -19,7 +72,7 @@
         [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017],
     ];
 
-    var yData = [
+    let yData = [
         [4.19580340385437, 4.64562699198723, 7.61359855532646, 7.17937499284744, 6.05508536100388, 5.86188286542892, 5.85007108747959, 5.4981455206871, 6.63976222276688, 8.4437794983387, 9.23539102077484, 9.37587842345238, 9.13455188274384, 10.3234454989433, 10.1782701909542, 10.1176336407661, 9.95196625590324, 10.3627048432827],
         [6.81606158614159, 6.78313374519348, 6.80292323231697, 7.52894952893257, 7.6156809926033, 7.67285749316216, 7.75426775217056, 7.83220306038857, 8.28874111175537, 8.9841827750206, 9.01127234101295, 9.07824635505676, 9.07151773571968, 9.02014523744583, 9.02362614870071, 9.10924822092056, 8.97140800952911, 8.87312963604927],
         [9.58447754383087, 9.70562770962715, 10.0221864879131, 10.082833468914, 10.1642936468124, 10.2148443460464, 10.3975810110569, 10.3346109390259, 10.5136066675186, 11.3009974360466, 11.2390235066414, 11.2030930817127, 11.3154701888561, 11.435729265213, 11.5711249411106, 11.4590764045715, 11.4789254963398, 11.3128922879696],
@@ -27,41 +80,47 @@
         [4.47341501712799, 4.22035083174706, 4.348249360919, 4.38032373785973, 4.25689592957497, 4.142215102911, 3.91870997846127, 3.65868471562862, 3.87722700834274, 4.32182438671589, 4.20799143612385, 4.32551316916943, 4.54939901828766, 4.71002236008644, 4.77322712540627, 4.88872304558754, 4.98188063502312, 5.15119321644306]
     ];
 
-    var lastDataIndex = xData[0].length - 1
+    yData = yData.map(y => {
+        return y.map(d => {
+            return d.toFixed(2);
+        });
+    });
 
-    var colors = ['rgba(255, 113, 206, 1)', 'rgba(82, 191, 144, 1)', 'rgba(136, 118, 236, 1)', 'rgba(148, 223, 243, 1)', 'rgba(59, 89, 152, 1)',];
+    const lastDataIndex = xData[0].length - 1;
 
-    var lineSize = [4, 4, 4, 4, 4];
+    let markerSize = Array(xData[0].length).fill(10)
+    markerSize[0] = 20
+    markerSize[lastDataIndex] = 20
 
-    var labels = ['Armenia', 'Spain', 'France', 'India', 'China'];
+    const colors = ['rgba(255, 113, 206, 1)', 'rgba(82, 191, 144, 1)', 'rgba(136, 118, 236, 1)', 'rgba(148, 223, 243, 1)', 'rgba(59, 89, 152, 1)',];
 
-    var data = [];
+    const lineSize = [4, 4, 4, 4, 4];
 
-    for (var i = 0; i < xData.length; i++) {
-        var result = {
+    const labels = ['Armenia', 'Spain', 'France', 'India', 'China'];
+
+    const data = [];
+    let i = 0;
+    for (i = 0; i < xData.length; i++) {
+        const lineMark = {
             x: xData[i],
             y: yData[i],
             type: 'scatter',
-            mode: 'lines',
+            mode: 'lines + markers',
             line: {
                 color: colors[i],
                 width: lineSize[i]
-            }
-        };
-        var result2 = {
-            x: [xData[i][0], xData[i][lastDataIndex]],
-            y: [yData[i][0], yData[i][lastDataIndex]],
-            type: 'scatter',
-            mode: 'markers',
+            },
             marker: {
                 color: colors[i],
-                size: 12
-            }
-        };
-        data.push(result, result2);
+                size: markerSize
+            },
+            name: labels[i],
+            hoverInfo: "x",
+        }
+        data.push(lineMark);
     }
 
-    var layout = {
+    const layout = {
         showlegend: false,
         height: 800,
         width: 1000,
@@ -99,11 +158,11 @@
             {
                 xref: 'paper',
                 yref: 'paper',
-                x: 0.0,
+                x: 0.25,
                 y: 1.05,
                 xanchor: 'left',
                 yanchor: 'center',
-                text: 'Health expenditure (% of GDP)',
+                text: 'Health Expenditure (% of GDP)',
                 font: {
                     family: 'Arial',
                     size: 30,
@@ -114,14 +173,14 @@
         ]
     };
 
-    for (var i = 0; i < xData.length; i++) {
-        var result = {
+    for (i = 0; i < xData.length; i++) {
+        const leftMargin = {
             xref: 'paper',
             x: 0.05,
             y: yData[i][0],
             xanchor: 'right',
             yanchor: 'middle',
-            text: labels[i] + ' ' + yData[i][0].toFixed(2) + '%',
+            text: labels[i] + ' ' + yData[i][0] + '%',
             showarrow: false,
             font: {
                 family: 'Arial',
@@ -129,13 +188,13 @@
                 color: 'black'
             }
         };
-        var result2 = {
+        const rightMargin = {
             xref: 'paper',
             x: 0.95,
-            y: yData[i][lastDataIndex].toFixed(2),
+            y: yData[i][lastDataIndex],
             xanchor: 'left',
             yanchor: 'middle',
-            text: yData[i][lastDataIndex].toFixed(2) + '%',
+            text: yData[i][lastDataIndex] + '%',
             font: {
                 family: 'Arial',
                 size: 16,
@@ -144,10 +203,10 @@
             showarrow: false
         };
 
-        layout.annotations.push(result, result2);
+        layout.annotations.push(leftMargin, rightMargin);
     }
 
-    Plotly.newPlot('gdpDiv', data, layout, {displaylogo: false});
+    Plotly.newPlot('gdpDiv', data, layout, {displaylogo: false, displayModeBar: false});
 </script>
 </body>
 </html>
