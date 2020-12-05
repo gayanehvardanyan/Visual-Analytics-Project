@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Visual Analytics - Health Care Visualization</title>
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+</head>
+<body>
+
+<div id='gdpDiv'><!-- Plot for Health Care spending as % of GDP --></div>
+
+
+<script>
+    var xData = [
+        [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017],
+        [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017],
+        [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017],
+        [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017],
+        [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017],
+    ];
+
+    var yData = [
+        [4.19580340385437, 4.64562699198723, 7.61359855532646, 7.17937499284744, 6.05508536100388, 5.86188286542892, 5.85007108747959, 5.4981455206871, 6.63976222276688, 8.4437794983387, 9.23539102077484, 9.37587842345238, 9.13455188274384, 10.3234454989433, 10.1782701909542, 10.1176336407661, 9.95196625590324, 10.3627048432827],
+        [6.81606158614159, 6.78313374519348, 6.80292323231697, 7.52894952893257, 7.6156809926033, 7.67285749316216, 7.75426775217056, 7.83220306038857, 8.28874111175537, 8.9841827750206, 9.01127234101295, 9.07824635505676, 9.07151773571968, 9.02014523744583, 9.02362614870071, 9.10924822092056, 8.97140800952911, 8.87312963604927],
+        [9.58447754383087, 9.70562770962715, 10.0221864879131, 10.082833468914, 10.1642936468124, 10.2148443460464, 10.3975810110569, 10.3346109390259, 10.5136066675186, 11.3009974360466, 11.2390235066414, 11.2030930817127, 11.3154701888561, 11.435729265213, 11.5711249411106, 11.4590764045715, 11.4789254963398, 11.3128922879696],
+        [4.03493233025074, 4.26278114318848, 4.24016676843166, 4.00847978889942, 3.9573922753334, 3.79116237163544, 3.63477803766727, 3.51754166185856, 3.51468063890934, 3.48537862300873, 3.27211916446686, 3.24634201824665, 3.32935303449631, 3.74944172799587, 3.61956544220448, 3.59565988183022, 3.51098328828812, 3.53495962917805],
+        [4.47341501712799, 4.22035083174706, 4.348249360919, 4.38032373785973, 4.25689592957497, 4.142215102911, 3.91870997846127, 3.65868471562862, 3.87722700834274, 4.32182438671589, 4.20799143612385, 4.32551316916943, 4.54939901828766, 4.71002236008644, 4.77322712540627, 4.88872304558754, 4.98188063502312, 5.15119321644306]
+    ];
+
+    var lastDataIndex = xData[0].length - 1
+
+    var colors = ['rgba(255, 113, 206, 1)', 'rgba(82, 191, 144, 1)', 'rgba(136, 118, 236, 1)', 'rgba(148, 223, 243, 1)', 'rgba(59, 89, 152, 1)',];
+
+    var lineSize = [4, 4, 4, 4, 4];
+
+    var labels = ['Armenia', 'Spain', 'France', 'India', 'China'];
+
+    var data = [];
+
+    for (var i = 0; i < xData.length; i++) {
+        var result = {
+            x: xData[i],
+            y: yData[i],
+            type: 'scatter',
+            mode: 'lines',
+            line: {
+                color: colors[i],
+                width: lineSize[i]
+            }
+        };
+        var result2 = {
+            x: [xData[i][0], xData[i][lastDataIndex]],
+            y: [yData[i][0], yData[i][lastDataIndex]],
+            type: 'scatter',
+            mode: 'markers',
+            marker: {
+                color: colors[i],
+                size: 12
+            }
+        };
+        data.push(result, result2);
+    }
+
+    var layout = {
+        showlegend: false,
+        height: 800,
+        width: 1000,
+        xaxis: {
+            showline: true,
+            showgrid: false,
+            showticklabels: true,
+            linecolor: 'rgb(204,204,204)',
+            linewidth: 2,
+            autotick: false,
+            ticks: 'outside',
+            tickcolor: 'rgb(204,204,204)',
+            tickwidth: 2,
+            ticklen: 5,
+            tickfont: {
+                family: 'Arial',
+                size: 12,
+                color: 'rgb(82, 82, 82)'
+            }
+        },
+        yaxis: {
+            showgrid: false,
+            zeroline: false,
+            showline: false,
+            showticklabels: false
+        },
+        autosize: true,
+        margin: {
+            autoexpand: true,
+            l: 100,
+            r: 20,
+            t: 100
+        },
+        annotations: [
+            {
+                xref: 'paper',
+                yref: 'paper',
+                x: 0.0,
+                y: 1.05,
+                xanchor: 'left',
+                yanchor: 'center',
+                text: 'Health expenditure (% of GDP)',
+                font: {
+                    family: 'Arial',
+                    size: 30,
+                    color: 'rgb(37,37,37)'
+                },
+                showarrow: false
+            }
+        ]
+    };
+
+    for (var i = 0; i < xData.length; i++) {
+        var result = {
+            xref: 'paper',
+            x: 0.05,
+            y: yData[i][0],
+            xanchor: 'right',
+            yanchor: 'middle',
+            text: labels[i] + ' ' + yData[i][0].toFixed(2) + '%',
+            showarrow: false,
+            font: {
+                family: 'Arial',
+                size: 16,
+                color: 'black'
+            }
+        };
+        var result2 = {
+            xref: 'paper',
+            x: 0.95,
+            y: yData[i][lastDataIndex].toFixed(2),
+            xanchor: 'left',
+            yanchor: 'middle',
+            text: yData[i][lastDataIndex].toFixed(2) + '%',
+            font: {
+                family: 'Arial',
+                size: 16,
+                color: 'black'
+            },
+            showarrow: false
+        };
+
+        layout.annotations.push(result, result2);
+    }
+
+    Plotly.newPlot('gdpDiv', data, layout, {displaylogo: false});
+</script>
+</body>
+</html>
