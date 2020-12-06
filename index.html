@@ -5,64 +5,97 @@
     <title>Visual Analytics - Health Care Visualization</title>
     <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
     <!-- CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
-          integrity="sha256-WLKGWSIJYerRN8tbNGtXWVYnUM5wMJTXD8eG4NtGcDM=" crossorigin="anonymous">
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+    <!-- jQuery and JS bundle w/ Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+            crossorigin="anonymous"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"
-            integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="assets/jquery.dropdown.min.css">
+    <script src="assets/jquery.dropdown.min.js"></script>
 
 </head>
 <body>
 <section class="section">
     <div class="container">
-        <h1 class="title">
-            Health Care Spending
-        </h1>
-        <div class="columns">
-            <div class="column select is-multiple is-primary">
-                <label for="countries">Choose upto 5 country to plot:</label>
-                <select name="countries" id="countries" multiple size="4">
-                    <option class="dropdown-item" value="Armenia">Armenia</option>
-                    <option class="dropdown-item" value="France">France</option>
-                    <option class="dropdown-item" value="Spain">Spain</option>
-                    <option class="dropdown-item" value="India">India</option>
-                    <option class="dropdown-item" value="China">China</option>
-                    <option class="dropdown-item" value="America">America</option>
-                    <option class="dropdown-item" value="Italy">Italy</option>
-                    <option class="dropdown-item" value="Greece">Greece</option>
+        <div class="row">
+            <h1 class="title col-lg">
+                Health Care Spending
+            </h1>
+        </div>
+        <div class="row">
+            <div id="countries-select" class="col-lg">
+                <select style="display:none" name="countries" multiple>
+                    <option value="Armenia">Armenia</option>
+                    <option value="France">France</option>
+                    <option value="Spain">Spain</option>
+                    <option value="India">India</option>
+                    <option value="China">China</option>
+                    <option value="America">America</option>
+                    <option value="Italy">Italy</option>
+                    <option value="Greece">Greece</option>
                 </select>
-                <div class="column">
-                    <button class="button is-primary is-medium" id="plot-button">Plot</button>
-                </div>
-                <div class="column">
-                    <div id='gdpDiv'><!-- Plot for Health Care spending as % of GDP --></div>
-                </div>
-            </div>
-            <div class="modal" id="not-implemented-modal">
-                <div class="modal-background"></div>
-                <div class="modal-content">
-                    <div class="notification is-danger">
-                        Interactive filtering is not developed yet, stay tuned!
-                    </div>
-                </div>
-                <button class="modal-close is-large" aria-label="close" id="modal-close"></button>
             </div>
         </div>
-
+        <div class="row">
+            <button type="button" class="btn btn-outline-success btn-lg btn-block col-lg" id="plot-button">Plot</button>
+        </div>
+        <div class="row">
+            <div class="alert alert-danger alert-dismissible fade col-lg" id="not-implemented">
+                <strong>Oops!</strong> Dynamic selection not developed yet, stay tuned!
+                <button type="button" class="close" aria-label="Close" id="not-implemented-close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div id='gdpDiv'><!-- Plot for Health Care spending as % of GDP --></div>
+        </div>
     </div>
 </section>
-</div>
 
 <script>
-    $("#modal-close").click(function () {
-        $("#not-implemented-modal").removeClass("is-active")
+    $(document).ready(function () {
+        drop_down();
+        events();
     });
 
-    $("#plot-button").click(function () {
-        $("#not-implemented-modal").addClass("is-active")
-    });
+    function events() {
+        $('#plot-button').click(function () {
+            console.log("meh")
+            $('#not-implemented').addClass("show");
+        });
+
+        $('.close').click(function () {
+            $(this).parent().removeClass("show");
+        });
+    }
+
+    function drop_down() {
+        $('#countries-select').dropdown({
+            readOnly: true,
+            minCount: 2,
+            minCountErrorMessage: 'Choose at-least 2 countries',
+            limitCount: 5,
+            limitCountErrorMessage: 'Choose a Maximum of 5 countries',
+            input: '<input type="text" maxLength="20" placeholder="Search">',
+            multipleMode: 'label',
+            searchable: true,
+            searchNoData: '<li style="color:#ddd">No Results</li>',
+            choice: function () {
+            },
+            extendProps: []
+
+        });
+    }
+
 
     const xData = [
         [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017],
