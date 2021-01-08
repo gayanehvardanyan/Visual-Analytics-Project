@@ -79,6 +79,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="assets/jquery.dropdown.min.css">
     <script src="assets/jquery.dropdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
 </head>
 <body>
 <section class="section">
@@ -966,5 +967,9 @@
         country_line_plot(xData, oopData, 'Out of Pocket Medical Expense (USD)', 'oopDiv', '$');
     }
 </script>
+<div class="container">
+        <canvas id="num_beds"></canvas>
+</div>
+<script src="./num_beds.js"></script>
 </body>
 </html>
