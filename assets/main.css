@@ -1,3 +1,4 @@
+/*##65c2cf*/
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -63,8 +64,11 @@ h1 {
 }
 
 h2 {
-    font-size: 6em;
+    background:#65c2cf;
+    font-size: 4.5em;
+    color: white;
     padding: 0.5em 0 0.5em 0;
+    padding-left: 0.5em;
 }
 
 h3 {
@@ -83,6 +87,8 @@ dd {
 p {
     font-size: 1.9em;
     padding: 0.4em 0 0.4em 0;
+    margin-bottom: 1em;
+    margin-top: 1em;
 }
 
 a:link,
@@ -139,7 +145,7 @@ header {
 
 .tagline {
 
-    font-size: 2.3em;
+    font-size: 2em;
     letter-spacing: 0.02em;
     padding: 0;
 }
@@ -169,8 +175,9 @@ header {
 }
 
 .inner {
-    width: 960px;
+    width: 1100px;
     margin: 10px auto;
+    /*border: 1px solid black;*/
 }
 
 pre {
@@ -478,14 +485,18 @@ pre.single {
 }
 
 .plot-button {
+    
     display: block;
     width: 100%;
+    border: 4px solid #5EB1BC;
     margin: 5px auto;
-    background-color: #4CAF50;
+    border-radius: 50px;
+    background-color: #65c2cf;
     padding: 14px 28px;
     font-size: 16px;
     cursor: pointer;
     text-align: center;
+    
 }
 
 .block-select {
@@ -501,10 +512,34 @@ pre.single {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
+    margin-top: 10px;
+
 }
 
 /*needed for line charts d3*/
 .overlay {
     fill: none;
     pointer-events: all;
+
 }
+
+
+#map{
+  
+  border: 1px solid black;
+  border-radius: 5px;
+  
+}
+
+.alignBar{
+    font-size: 2em;
+    color: black;
+    text-align: center;
+}
+
+#selectButton{
+  float: left;
+  width: 30%;
+}
+
+

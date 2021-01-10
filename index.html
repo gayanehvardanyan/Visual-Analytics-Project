@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="assets/main.css"/>
     <meta charset="UTF-8">
     <title>Visual Analytics - Health Care Visualization</title>
+
     <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
     <!-- CSS -->
     <!-- CSS -->
@@ -53,37 +54,60 @@
 </section>
 <section class="panel heightless" data-section-name="overview" id="overview">
     <div class="inner">
-        <h2>Does The Financial Aid Governments Receive Contribute To People's health?</h2>
-        <p class="tagline">Click the country on the map to compare the received financial aid and the health expenditure
-            per capita
-            from 2008 to 2018. Hover the mouse over the line chart to see the exact amount per year.</p>
-        <svg id="map" width="1500" height="400"></svg>
+        <p></p>
+        <h2>Does Financial Aid Governments Receive Contribute to People's health?</h2>
+        
+        <p class="tagline">
+            When a country accepted more aid, does the amount of health spending also increase? We collect data from the World Bank, and you can check it by clicking the country on the map. Later, the 2 line charts on the right will show you the amount of received financial aid and the health expenditure per capita from 2008 to 2018 for the country you select.  
+        </br>
+        </br>Hint: 
+        The map itself is color encoded using the death rate, you will see at the bottom the country name and death rate by hovering over. For the line charts, hovering overcan see the exact amount every year. 
+
+
+
+        </p>
+   
         <div>
             <div class="grid-container">
+                
+                
                 <div class="grid-child">
-                    <svg id="line" width="500" height="200"></svg>
+                    <svg id="map" width="550" height="400"></svg>
                 </div>
                 <div class="grid-child">
-                    <svg id="line2" width="500" height="200"></svg>
+                    <svg id="line" width="550" height="200"></svg>
+                    <svg id="line2" width="550" height="200"></svg>
+                   
                 </div>
+              <!--   <div class="grid-child">
+                    
+                </div> -->
+               
+
             </div>
+           
+                
+           
         </div>
     </div>
 </section>
 <section class="panel heightless">
     <div class="inner">
         <header>
+            <p></p>
             <h2>World's Health Financial Situation at Glance</h2>
-            <p class="tagline">Select the year from the dropdown button below, to view the financial aid received and
-                healthcare spendings per country in USD </p>
+            <p class="tagline">Select the year from the dropdown button to view the top 20 countries that received the most general financial aid, and another 20 nations have the highest health expenditure per capita per country in USD.</p>
+            <select id="selectButton" class="block-select"></select>
         </header>
 
-        <select id="selectButton" class="block-select"></select>
+        
         <div class="grid-container">
             <div class="grid-child">
+                <h3 class="alignBar">Financial aid received</h3>
                 <svg id="Barchart_received" width="550" height="400"></svg>
             </div>
             <div class="grid-child">
+                <h3 class="alignBar">Health expenditure per capital</h3>
                 <svg id="Barchart_spend" width="550" height="400"></svg>
             </div>
         </div>
@@ -93,8 +117,7 @@
     <div class="inner">
         <header>
             <h2>Health Care Spending by Governments (GDP) vs Individuals (Out of Pocket Expenses)</h2>
-            <p class="tagline">Select up to 5 countries and click on plot to compare the spendings of the goverment out
-                of GDP on healthcare on the first plot, and the amount each individual spends on the second</p>
+            <p class="tagline">Select up to 5 countries and click on plot to compare the spendings of the goverment out of GDP on healthcare on the first plot, and the amount each individual spends on the second</p>
         </header>
         <!-- Countries list for q3-->
         <div id="countries-select">
@@ -1337,13 +1360,6 @@
 
         function updateBarChart1(data) {
 
-            var textBar1 = svg_bar1.append("text")
-                .attr("x", (width / 2))
-                .attr("y", 20 - (margin.top))
-                .attr("text-anchor", "middle")
-                .style("font-size", "16px")
-                .attr("id", "BarChart_Title")
-                .text("Financial aid received");
 
 
             bar_y
@@ -1374,20 +1390,13 @@
                     return bar_x(d.value);
                 })
                 .attr("height", bar_y.bandwidth())
-                .attr("fill", "teal")
+                .attr("fill", "#CC5959")
 
         }
 
 
         function updateBarChart2(data) {
 
-            var textBar1 = svg_bar2.append("text")
-                .attr("x", (width / 2))
-                .attr("y", 20 - (margin.top))
-                .attr("text-anchor", "middle")
-                .style("font-size", "16px")
-                .attr("id", "BarChart_Title")
-                .text("Health expenditure per capital");
 
 
             bar_y
@@ -1418,7 +1427,7 @@
                     return bar_x2(d.value);
                 })
                 .attr("height", bar_y.bandwidth())
-                .attr("fill", "teal")
+                .attr("fill", "#FFE137")
 
         }
 
@@ -1528,7 +1537,7 @@
 
         const layout = {
             showlegend: false,
-            height: 800,
+            height: 700,
             width: 1000,
             xaxis: {
                 showline: true,
