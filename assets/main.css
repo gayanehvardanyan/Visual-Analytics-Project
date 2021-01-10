@@ -30,8 +30,9 @@ body {
     line-height: 1;
 }
 
-ol, ul {
+ol {
     list-style: none;
+    padding-left: 2em;
 }
 
 blockquote, q {
@@ -475,9 +476,14 @@ pre.single {
     height: 1300px !important;
 }
 
+.background {
+    height: 1300px !important;
+}
 .heightless {
     color: #333333;
 }
+
+
 
 .gdp {
     height: 2150px !important;
@@ -541,5 +547,56 @@ pre.single {
   float: left;
   width: 30%;
 }
+
+.background-container {
+    display: grid;
+    grid-template-columns: 0.3fr 1fr;
+    grid-gap: 50px;
+    margin-top: 5px;
+
+
+}
+.doctor{
+  float: right;
+  /*justify-content: center;
+  align-items: center;*/
+  height: 100;
+  margin-left: 5em;
+  margin-top: 2em;
+  width: 70;
+  /*border: 1px solid black;*/
+ /* margin: auto;*/
+ /* margin-top: 17em;*/
+  
+}
+
+.background-text{
+  height: 100;
+  width: 400;
+
+  /*border: 1px solid black;*/
+
+}
+.list-points{
+    
+    margin-left: 2em;
+    font-size: 1.8em;
+    margin-top: 3em;
+    /*font-family: Verdana;*/
+
+}
+/*.tagline-color{
+    font-size: 2em;
+    letter-spacing: 0.02em;
+    padding: 0;
+    color:white;
+    background:#65c2cf;
+
+}*/
+/*.list-points{
+    margin:0 20px 20px 0;
+    display: inline-block
+}*/
+
 
 
