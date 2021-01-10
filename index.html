@@ -383,7 +383,7 @@
 <section class="panel heightless">
     <div class="inner">
         <header>
-            <h2>How Many Hospital Beds are there per 10,000 Thousand People in Each Country?</h2>
+            <h2>How Many Hospital Beds are there per 10,000 People in Each Country?</h2>
         </header>
         <select id="selectYearNumBeds" class="block-select" onchange="showSelectedCountryDataForBeds(this)">
             <option value="2018">2018</option>
@@ -412,15 +412,33 @@
 <section class="panel heightless">
     <div class="inner">
         <header>
-            <h2>How has Life Expectancy Changed over the Years?</h2>
-            <p class="tagline">Select countries from list below to view life expectancies changes across year</p>
-            <p>To select multiple countries use shift+click</p>
+            <h2>How has Life Expectancy Changed over the years?</h2>
+            <p class="tagline">Select countries from list below to view life expectancies changes across years</p>
+            <p>To select multiple countries use ctrl/cmd+click</p>
         </header>
-        <select id="selectCountryLifeExpectancy" class="block-select"
-                onchange="showSelectedCountryDataForLifeExpectancy([])" multiple>
-            <option>Choose a country</option>
-        </select>
-        <canvas id="life_expectancy"></canvas>
+        <div class="grid-container">
+            <div class="grid-child">
+                <select id="selectCountryLifeExpectancy" class="block-select"
+                    onchange="showSelectedCountryDataForLifeExpectancy([])" multiple>
+                    <option>Choose a country</option>
+                </select>
+                <canvas id="life_expectancy" ></canvas>
+            </div>
+            <div class="grid-child">
+                <select id="selectYearLifeExpectancy" class="block-select" onchange="showBarLifeExpectancy()">
+                    <option value="2019">2019</option>
+                    <option value="2015">2015</option>
+                    <option value="2010">2010</option>
+                    <option value="2000">2000</option>
+                </select>
+                <select id="selectOrderLifeExpectancy" class="block-select" onchange="showBarLifeExpectancy()">
+                    <option value = "Top 20">Top 20</option>
+                    <option value = "Bottom 20">Bottom 20</option>
+                </select>
+                <canvas id="life_expectancy_bar_chart" height=180></canvas>
+            </div>
+            
+        </div>
     </div>
 </section>
 <script>

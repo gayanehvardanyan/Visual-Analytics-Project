@@ -4,17 +4,25 @@ var ctxNumBeds = document.getElementById("num_beds").getContext('2d');
 
 showSelectedCountryDataForBeds({value: "2018"})
 
-function sortLists(X, Y){
+function sortLists(X, Y, ascending){
     //sort both lists in descending order based on X
     //assum X and Y are of same length
+    //ascending is either 1 or -1
     sortDict = {}
     for(var i=0; i<X.length; i++){
-        sortDict[X[i]] = Y[i]
+        sortDict[X[i]] = []
     }
-    sortedX = X.sort(function(a,b){return b-a})
+    for(var i=0; i<X.length; i++){
+        sortDict[X[i]].push(Y[i])
+    }
+    sortedX = X.sort(function(a,b){return ascending*(a-b)})
     sortedY = []
+    lastX = null
     for(var i=0; i<sortedX.length; i++){
-        sortedY.push(sortDict[sortedX[i]])
+        if(sortedX[i] != lastX){
+            sortedY = sortedY.concat(sortDict[sortedX[i]])
+        }
+        lastX = sortedX[i]
     }
     return sortedX, sortedY
 }
@@ -47,7 +55,7 @@ function showSelectedCountryDataForBeds(year){
                 Y.push(data[i]['FactValueForMeasure'])
             }
         }
-        Y, X = sortLists(Y, X)
+        Y, X = sortLists(Y, X, -1)
         console.log(X)
         console.log(Y)
         datasets = [{
@@ -84,7 +92,7 @@ function showSelectedCountryDataForBeds(year){
                     }],
                     xAxes: [{
                         scaleLabel: {
-                            display: true,
+                            display: false,
                             labelString: "Countries"
                         }
                     }]
